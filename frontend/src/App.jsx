@@ -1,38 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-
-const BookList = ({ books }) => {
-  return (
-    <div className="booklist">
-      {books.map((book) => (
-        <div className="book-view" key={book.id}>
-          <h2>{ book.title }</h2>
-          <p>Written by { book.author }</p>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-const BookForm = ({ event, title, handleBookTitleChange, author, handleBookAuthorChange }) => {
-  return (
-    <div>
-      <form onSubmit={event}>
-        <div>
-          title: <input value={title} onChange={handleBookTitleChange} />
-        </div>
-        <div>
-          author: <input value={author} onChange={handleBookAuthorChange}/>
-        </div>
-        <div>
-          <button type='submit'>save</button>
-        </div>
-      </form>
-    </div>
-  )
-}
-
 const App = () => {
   const [books, setBooks] = useState([])
   const [newBookTitle, setNewBookTitle] = useState('')
@@ -79,7 +47,6 @@ const App = () => {
   return (
     <div>
       <h1>Books</h1>
-      {books && <BookList books={books} />}
       <BookForm 
         event={addBook}
         title={newBookTitle}
@@ -87,9 +54,41 @@ const App = () => {
         author={newBookAuthor}
         handleBookAuthorChange={handleBookAuthorChange}
       />
+      {books && <BookList books={books} />}
     </div>
   )
 
+}
+
+const BookList = ({ books }) => {
+  return (
+    <div className="booklist">
+      {books.map((book) => (
+        <div className="book-view" key={book.id}>
+          <h2>{ book.title }</h2>
+          <p>Written by { book.author }</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+const BookForm = ({ event, title, handleBookTitleChange, author, handleBookAuthorChange }) => {
+  return (
+    <div>
+      <form onSubmit={event}>
+        <div>
+          title: <input value={title} onChange={handleBookTitleChange} />
+        </div>
+        <div>
+          author: <input value={author} onChange={handleBookAuthorChange}/>
+        </div>
+        <div>
+          <button type='submit'>save</button>
+        </div>
+      </form>
+    </div>
+  )
 }
 
 export default App
