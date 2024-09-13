@@ -1,53 +1,28 @@
-import globals from "globals";
-import stylisticJs from '@stylistic/eslint-plugin-js'
 import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import tseslint from 'typescript-eslint'
 
-export default [
-  js.configs.recommended,
+export default tseslint.config(
+  { ignores: ['dist'] },
   {
-    files: ["**/*.js"],
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      sourceType: "commonjs",
-      globals: {
-        ...globals.node,
-      },
-      ecmaVersion: "latest",
-    },
-    "parserOptions": {
-        "sourceType": "module"
+      ecmaVersion: 2020,
+      globals: globals.browser,
     },
     plugins: {
-      '@stylistic/js': stylisticJs
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
     rules: {
-      '@stylistic/js/indent': [
-        'error',
-        2
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
       ],
-      '@stylistic/js/linebreak-style': [
-        'error',
-        'unix'
-      ],
-      '@stylistic/js/quotes': [
-        'error',
-        'single'
-      ],
-      '@stylistic/js/semi': [
-        'error',
-        'never'
-      ],
-      'eqeqeq': 'error',
-      'no-trailing-spaces': 'error',
-      'object-curly-spacing': [
-        'error', 'always'
-      ],
-      'arrow-spacing': [
-        'error', { 'before': true, 'after': true },
-      ],
-      'no-console': 'off',
     },
   },
-  { 
-    ignores: ["dist/**", "build/**"],
-  },
-]
+)
